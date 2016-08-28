@@ -12,8 +12,9 @@ myIngameIDs = ["BuRny", "Burny", "Blubb", "Bla"] #the script needs to know which
 #also if the script can't detect your ingame name, then the stream title (assuming you are zerg) might say TvZ instead of ZvT (it lists your race first)
 
 twitchChannel = "burnysc2" #replace the name with your twitch name, it has to be surrounded by the quotation marks "
-oauth = "nf9m45g45bg45bg49c77s1xo" #replace the channel editor token from step 3), surrounded by quotation marks "
-clientID = "l3jijexx6g43bg34bgre1ddv8x5j5nsm" #replace the Client ID from step 2), surrounded by quotation marks "
+oauth = "abcd123efghi456jklmnop7890" #replace the channel editor token from step 3), surrounded by quotation marks "
+clientID = "utsrq0987ponmlkj654ihgfe321dcba" #replace the Client ID from step 2), surrounded by quotation marks "
+#these oauth and clientID are not valid keys btw, so dont try them out before replacing them with your oauth and clientID :)
 
 allowUpdateWhileInReplay = 1 #change to 0 if stream title should NOT be updated while in replay
 includeRaces = 1 #change to 0 if stream title should NOT include the races/matchup
