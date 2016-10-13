@@ -14,16 +14,18 @@ import time
 import html
 
 
-#Config.set('graphics','window_state','maximized')
-#Config.set('graphics','fullscreen',1)
+#sets the window to not be resizeable, aswell as non-borderloss so you can still drag the window around
 Config.set('graphics','resizable',0)
 Config.set('graphics','borderless',0)
-#Config.set('graphics','rotation',90)
+
+#disable the default kivy touch detection (rightclick normally leaves an orange dot)
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Config.write()
+
+#set window size
 Window.size = (1000, 610)
 
-
+#time interval for how often the script checks if it can update the title
 global timeInterval
 timeInterval = 10
 
@@ -31,6 +33,7 @@ timeInterval = 10
 
 class TitleUpdater(Widget):
     def init2(self):     
+        #set variables to default values
         self.tempSettings2 = []
         self.scriptActive = False
         self.preText = ""
@@ -51,16 +54,15 @@ class TitleUpdater(Widget):
         \n\
         Created by [GG]BuRny alias BurnySc2\n\
         2016"
-
-        
-
     
     def update(self, dt):    
         global timeInterval
-        #time.sleep(10)
+
+        #if the "script activated?" box isn't active, this function does nothing
         if not self.scriptActiveBox.active:
             return 0
 
+        #update the variables from the text-input boxes and checkboxes
         self.myIngameIDs = []
         self.myIngameIDs.append(self.ingameID1.text.lower())
         self.myIngameIDs.append(self.ingameID2.text.lower())
@@ -74,16 +76,20 @@ class TitleUpdater(Widget):
         self.includeOpponentName = int(self.showOppNameBox.active)
         self.includeTimeStamp = int(self.showTimestampBox.active)
         self.allowUpdateWhileInReplay = int(self.updateTitleReplayBox.active)
+
+        #this will try to convert the string to an integer, but if the user enters something wrongly, it will set the interval to default
         try:
             timeInterval = int(self.titleUpdateIntervalText.text)
         except:
             timeInterval = 10
+        #this will normalize the interval between 10 and 30 seconds
         timeInterval = min(max(timeInterval, 30),10)
+
         self.clientID = self.clientIDText.text
         self.oauth = self.oAUTHText.text
         self.twitchChannel = self.twitchNameText.text
 
-
+        #gameurl and uiurl are the address for the sc2 api, the header for the update is already prepared
         GAMEurl = "http://localhost:6119/game"
         UIurl = "http://localhost:6119/ui"
         headers = {'Accept':'application/vnd.twitchtv.v3+json', 'Authorization':'OAuth ' + self.oauth, 'Client-ID':self.clientID}
@@ -146,31 +152,35 @@ class TitleUpdater(Widget):
             print("StarCraft 2 not running!")
         except ValueError:
             print("StarCraft 2 starting.")
-
         return 1
 
-
-
-
     def updateExampleTitle(self):
+        #the example title text will be instantly updated once any change to the following happen
         self.preText = self.customPreText.text
-        self.postText = self.customPostText.text        
+        self.postText = self.customPostText.text
         self.includeRaces = int(self.showRaceBox.active)
         self.includeOpponentName = int(self.showOppNameBox.active)
         self.includeTimeStamp = int(self.showTimestampBox.active)
         self.exampleTitleText.text = self.preText + ' ' + 'TvT '*self.includeRaces + 'vs BuRny '*self.includeOpponentName + 'at 15min '*self.includeTimeStamp + self.postText
 
-
     def scriptToggle(self):
+        #i guess this variable is not used sadly
         self.scriptActive = self.scriptActiveBox.active
+
     def ClientIDbtnPressed(self):
+        #the first button
         webbrowser.open("https://www.twitch.tv/kraken/oauth2/clients/new")
+
     def OAuthbtnPressed(self):
+        #the 2nd button
         webbrowser.open("https://api.twitch.tv/kraken/oauth2/authorize?response_type=token&client_id=" + self.clientIDText.text + "&redirect_uri=http://localhost&scope=channel_editor")
+
     def twitchLinkbtnPressed(self):
+        #3rd button, who would've guessed? :P
         webbrowser.open("https://www.twitch.tv/" + self.twitchNameText.text.lower()+"/dashboard")
 
     def loadSettings(self):
+        #this will try to load the config file, but it will only work if it exists, and if the config file hasn't been manipulated
         try:
             lines = [line.rstrip('\n') for line in open('titleUpdater.cfg')]
             self.clientIDText.text = lines[0]
@@ -188,6 +198,8 @@ class TitleUpdater(Widget):
             self.showOppNameBox.active = bool(int(lines[12]))
             self.showTimestampBox.active = bool(int(lines[13]))
             self.updateTitleReplayBox.active = bool(int(lines[14]))
+
+            #this here will again try to put the default time interval
             try:
                 self.titleUpdateIntervalText.text = lines[15]
             except:
@@ -196,6 +208,7 @@ class TitleUpdater(Widget):
 
     def saveSettings(self, dt):
         global timeInterval
+        #"try" in case it doesn't have admin rights for some reason, or if the script for any other reason can't write to file
         try:
             self.tempSettings = [self.clientID, self.oauth, self.twitchChannel, self.myIngameIDs[0], self.myIngameIDs[1], self.myIngameIDs[2], self.myIngameIDs[3], self.myIngameIDs[4], self.myIngameIDs[5], self.preText, self.postText, str(self.includeRaces), str(self.includeOpponentName), str(self.includeTimeStamp), str(self.allowUpdateWhileInReplay), str(timeInterval)]
             if self.tempSettings != self.tempSettings2:
@@ -206,8 +219,8 @@ class TitleUpdater(Widget):
                 self.tempSettings2 = self.tempSettings
         except: pass
 
-
 class TitleUpdaterApp(App):
+    #this is just the GUI builder if i understand correctly
     def build(self):
         global timeInterval
         game = TitleUpdater()
@@ -215,11 +228,7 @@ class TitleUpdaterApp(App):
         game.loadSettings()
         Clock.schedule_interval(game.update, timeInterval)
         Clock.schedule_interval(game.saveSettings, 20)
-        #wimg = Image(source='logo.png')
-        #wimg.size = Window.size
-        #game.add_widget(wimg, canvas=None)        
         return game
-
 
 if __name__ == '__main__':
     TitleUpdaterApp().run()
