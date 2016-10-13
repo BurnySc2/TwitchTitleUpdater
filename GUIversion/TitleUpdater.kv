@@ -1,0 +1,412 @@
+#:kivy 1.2.0
+
+
+
+
+<TitleUpdater>:   
+    
+
+
+
+    name: 'CheckBoxes'
+
+    scriptActiveBox: scriptActiveBox
+    streamTitleUpdateText: streamTitleUpdateText
+    clientIDText: clientIDText
+    clientIDBtn: clientIDBtn
+    oAUTHText: oAUTHText
+    oAUTHBtn: oAUTHBtn
+    twitchNameText: twitchNameText
+    twitchNamebtn: twitchNamebtn
+    ingameID1: ingameID1
+    ingameID2: ingameID2
+    ingameID3: ingameID3
+    ingameID4: ingameID4
+    ingameID5: ingameID5
+    ingameID6: ingameID6
+    exampleTitleText: exampleTitleText
+    customPreText: customPreText
+    customPostText: customPostText
+    showRaceBox: showRaceBox
+    showOppNameBox: showOppNameBox
+    showTimestampBox: showTimestampBox
+    updateTitleReplayBox: updateTitleReplayBox
+    titleUpdateIntervalText: titleUpdateIntervalText
+    creditText: creditText
+    
+
+    TabbedPanel:
+
+
+        size: root.size
+        id: tp
+        do_default_tab: False
+        
+
+        TabbedPanelItem:
+            id: tab_1
+            text: 'Main Menu'
+
+
+            GridLayout:
+                cols: 1
+                row_default_height: 32
+                #size_hint_y: 32
+                #row_force_default: True
+                spacing: 1
+                padding: 1
+                size: root.size
+
+                #canvas.before:
+                    #Color:
+                        #rgba: 1,0,1,0
+                canvas:
+                    Rectangle:
+                        id: rect
+                        source: "logo.png"
+                        pos: 0,0
+                        size: (792, 262)
+
+                GridLayout:
+                    
+
+                    id: g1
+                    cols: 2
+                    row_default_height: 32
+                    size_hint_y: 3
+                    row_force_default: True
+                    spacing: 10
+                    padding: 10
+                    size: root.size
+
+                    Label:
+                        text: "Script activated:"
+                        size_hint_x: 32
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    Switch:
+                        size_hint_x: 128
+                        id: scriptActiveBox
+                        active: False
+                        
+                    
+
+
+                    Label:
+                        text: "Last stream title update:"
+                        size_hint_x: 32
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    TextInput:
+                        size_hint_x: 128
+                        id: streamTitleUpdateText
+                        readonly: False
+                        text: "If the script was successful, this text will change"
+                        multiline: False
+                        #background_color: [0.6, 0.2, 0.8, 1]
+                        background_color: [1,1,1,0]
+                        #foreground_color: [1, 1, 1, 1]
+                        foreground_color: [0.4, 0.7, 0.9, 1]
+
+                GridLayout:
+                    canvas:
+                        Rectangle:
+                            id: rect
+                            source: "logo.png"
+                            pos: 0,0
+                            size: (792, 262)
+
+                    cols: 2
+                    row_default_height: 32
+                    size_hint_y: 9
+                    row_force_default: True
+                    spacing: 10
+                    padding: 10
+                    size: root.size
+
+                    Label:
+                        size_hint_x: 3
+                        text: "Example output of customized stream title:"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    TextInput:
+                        id: exampleTitleText
+                        size_hint_x: 6
+                        text: ""
+                        readonly: True
+                        multiline: False
+                        #background_color: [0.6, 0.2, 0.8, 1]
+                        background_color: [1,1,1,0]
+                        foreground_color: [0.4, 0.7, 0.9, 1]
+
+
+
+                    Label:
+                    Label:
+
+                    Label:
+                        text: "Custom text before the automated text:"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    TextInput:
+                        id: customPreText
+                        text: ""
+                        multiline: False
+                        on_text: root.updateExampleTitle()
+                        background_color: [0.3, 0.3, 0.3, 1]
+                        foreground_color: [1, 1, 1, 1]
+
+
+                    Label:
+                        text: "Custom text after the automated text:"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    TextInput:
+                        id: customPostText
+                        text: ""
+                        multiline: False
+                        on_text: root.updateExampleTitle()
+                        background_color: [0.3, 0.3, 0.3, 1]
+                        foreground_color: [1, 1, 1, 1]
+
+                    Label:
+                        text: "Show races?"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    CheckBox:
+                        id: showRaceBox
+                        active: True
+                        on_press: root.updateExampleTitle()
+                        text_size: (32,32)
+                        size: (32,32)
+                        halign: 'left'
+
+                    Label:
+                        text: "Show opponent name?"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    CheckBox:
+                        id: showOppNameBox
+                        active: True
+                        on_press: root.updateExampleTitle()
+
+
+                    Label:
+                        text: "Show ingame timestamp?"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    CheckBox:
+                        id: showTimestampBox
+                        active: True
+                        on_press: root.updateExampleTitle()
+
+
+
+                    Label:
+                        text: "Show if in replay?"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    CheckBox:
+                        id: updateTitleReplayBox
+                        active: True
+
+
+
+                    Label:
+                        text: "Title update interval (10-30 seconds)"
+                        text_size: (self.width,self.height)
+                        halign: 'right'
+                        valign: 'middle'
+                    TextInput:
+                        id: titleUpdateIntervalText
+                        text: "10"
+                        multiline: False
+                        background_color: [0.3, 0.3, 0.3, 1]
+                        foreground_color: [1, 1, 1, 1]
+
+
+
+
+
+        TabbedPanelItem:
+            id: tab_2
+            text: 'Settings'
+
+
+
+            GridLayout:
+                canvas:
+                    Rectangle:
+                        id: rect
+                        source: "logo.png"
+                        pos: 0,0
+                        size: (792, 262)
+
+                id: g2
+                cols: 4
+                row_default_height: 32
+                size_hint_y: 7
+                row_force_default: True
+                spacing: 10
+                padding: 10
+                size: root.size
+
+                Label:
+                    text: "Client ID"
+                    text_size: (self.width,self.height)
+                    halign: 'right'
+                    valign: 'middle'
+                TextInput:
+                    id: clientIDText
+                    text: "Enter ClientID here"
+                    multiline: False
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+                Button:
+                    id: clientIDBtn
+                    text: "Register app to get ClientID"
+                    on_press: root.ClientIDbtnPressed()
+                    background_color: [0.4, 0.7, 0.9, 1]
+                Label:
+
+
+                Label:
+                    text: "OAUTH"
+                    text_size: (self.width,self.height)
+                    halign: 'right'
+                    valign: 'middle'
+                TextInput:
+                    id: oAUTHText
+                    text: "ClientID entered? Then click ->"
+                    multiline: False
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+                Button:
+                    id: oAUTHBtn
+                    text: "Get me to my OAUTH"
+                    on_press: root.OAuthbtnPressed()
+                    background_color: [0.4, 0.7, 0.9, 1]
+                Label:
+
+
+                Label:
+                    text: "Twitch name"
+                    text_size: (self.width,self.height)
+                    halign: 'right'
+                    valign: 'middle'
+                TextInput:
+                    id: twitchNameText
+                    text: "Your twitch username"
+                    multiline: False
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+                Button:
+                    id: twitchNamebtn
+                    text: "Test if twitchname is valid"
+                    on_press: root.twitchLinkbtnPressed()    
+                    background_color: [0.4, 0.7, 0.9, 1]  
+                Label:
+
+
+                Label:
+                    text: "Ingame IDs"
+                    text_size: (self.width,self.height)
+                    halign: 'right'
+                    valign: 'middle'
+                TextInput:
+                    id: ingameID1
+                    multiline: False
+                    text: "Your ingame SC2 name"
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+                TextInput:
+                    id: ingameID2
+                    multiline: False
+                    text: "Enter more names if you"
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+                TextInput:
+                    id: ingameID3
+                    multiline: False
+                    text: "have multiple accounts"
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+
+
+                Label:
+                TextInput:
+                    id: ingameID4
+                    multiline: False
+                    text: ""
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+                TextInput:
+                    id: ingameID5
+                    multiline: False
+                    text: ""
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+                TextInput:
+                    id: ingameID6
+                    multiline: False
+                    text: ""
+                    background_color: [0.3, 0.3, 0.3, 1]
+                    foreground_color: [1, 1, 1, 1]
+
+
+        TabbedPanelItem:
+            id: tab_3
+            text: 'Credits'
+
+
+            AnchorLayout:
+                canvas:
+                    Rectangle:
+                        id: rect
+                        source: "logo.png"
+                        pos: 0,0
+                        size: (792, 262)
+
+                #cols: 1
+                #row_default_height: 32
+                #size_hint_y: 9
+                #row_force_default: True
+                #spacing: 10
+                #padding: 10
+                #size: root.size
+                anchor_x: "center"
+                anchor_y: "center"
+
+
+                Label:
+                    id: creditText
+                    text: ""
+                    #size: self.texture_size
+                    text_size: (self.width,self.height)
+                    halign: "center"
+                    valign: "top"
+
+            
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
