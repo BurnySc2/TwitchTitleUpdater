@@ -5,3 +5,6 @@ A Python script that uses the SC2 Client API to automatically update your Twitch
 
 More information and instructions here: https://www.reddit.com/r/starcraft/comments/4zvf9p/guide_sc2_client_api_python_automated_twitch/
 
+# LICENSE
+See LICENSE file
+The `logo.png` in folder `GUIversion` belongs to twitch.
